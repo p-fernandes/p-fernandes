@@ -1,0 +1,53 @@
+name: Update contribution graph
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+      timezone: "Europe/Madrid"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout profile repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install GitHubPoster
+        run: pip install -U 'github_poster[all]'
+
+      - name: Generate combined GitHub + GitLab graph
+        run: |
+          github_poster multiple \
+            --types "github,gitlab" \
+            --github_user_name "p-fernandes" \
+            --gitlab_user_name "pfernandes19" \
+            --me "Pedro Fernandes"
+
+      - name: Move generated SVG
+        run: |
+          mkdir -p assets
+          cp OUT_FOLDER/multiple.svg assets/contributions.svg
+
+      - name: Commit updated graph
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/contributions.svg
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore: update contribution graph"
+            git push
+          fi
