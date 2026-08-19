@@ -15,4 +15,4 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
-![GitBlend Contributions](https://gitblend.com/api/contributions/combined?github=p-fernandes&gitlab=pfernandes-smai&theme=github)
+![GitBlend Contributions](https://gitblend.com/api/contributions/combined?github=p-fernandes&gitlab=pfernandes19&token=c2d44318-9084-468b-bbf0-d60642c5deb2)
